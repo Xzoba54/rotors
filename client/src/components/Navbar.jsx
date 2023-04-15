@@ -1,19 +1,33 @@
-import React from "react";
+import { Container, Section, Nav, SearchContainer, Search, SearchIcon, SearchIconContainer } from "./NavbarStyles";
+import { Span } from "./GlobalStyles";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="nav">
-      <div className="logo">
-        <span>ROTORS</span>
-      </div>
-      <div className="search">
-        <div>
-          <input type="text" />
-          <button>Search</button>
-        </div>
-      </div>
-      <div className="buttons"></div>
-    </div>
+    <Container>
+      <Nav>
+        <Section>
+          <NavLink style={{ textDecoration: "none" }} to="/">
+            <Span fontSize="26px" fontWeight="600">
+              ROTORS
+            </Span>
+          </NavLink>
+        </Section>
+        <Section flex="2">
+          <SearchContainer>
+            <Search type="text" placeholder="Type to search..." />
+            <SearchIconContainer>
+              <SearchIcon src="/assets/search.svg" />
+            </SearchIconContainer>
+          </SearchContainer>
+        </Section>
+        <Section>
+          <Span fontSize="26px" fontWeight="600">
+            ROTORS
+          </Span>
+        </Section>
+      </Nav>
+    </Container>
   );
 };
 

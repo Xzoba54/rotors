@@ -1,33 +1,31 @@
 const ProductModel = require("../models/product.model");
-const allowedQueryParams = require("../helpers/allowedProperties");
+const CategoryModel = require("../models/category.model");
 
-const add = async (req, res) => {
-  const { name, desc, price, quanity, category } = req.body;
+const create = async (req, res) => {
+  let { properties } = req.body;
+  properties = JSON.parse(properties);
 
   try {
-    if (!name || !desc || !price || !quanity || !category) return res.status(422).json({ message: "Invalid data" });
+    const category = await CategoryModel.findOne({ name: req.body.category });
+    if (!category) return res.status(404).json({ message: "No category found" });
 
-    const allowedProperties = ["producer", "connectivity", "backlight", "switchColor"];
+    const newProduct = await ProductModel.create({
+      name: req.body.name,
+      category: category._id,
+      price: req.body.price,
+      desc: req.body.desc,
+      image: `http://localhost:5000/${req.file.destination}/${req.file.filename}`,
+      properties: properties.properties
+        .map((prop) => {
+          // if (category.properties.some((cprop) => cprop.name === Object.keys(prop)[0])) return;
 
-    const properties = {};
-    allowedProperties.forEach((property) => {
-      if (!req.body[property]) return;
-
-      properties[property] = req.body[property];
+          return {
+            property: Object.keys(prop)[0],
+            value: Object.values(prop)[0],
+          };
+        })
+        .filter(Boolean),
     });
-
-    const defaultData = {
-      name: name,
-      desc: desc,
-      price: price,
-      quanity: quanity,
-      category: category,
-      review: 0,
-      image: `http://localhost:5000/public/uploads/products/${req.file.filename}`,
-    };
-
-    const model = { ...defaultData, ...properties };
-    const newProduct = await ProductModel.create(model);
 
     await newProduct.save();
 
@@ -39,49 +37,10 @@ const add = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  // const delay = (t) => new Promise((res) => setTimeout(res, t * 1000));
-
-  // await delay(3);
-
   try {
-    const filter = {};
-
-    allowedQueryParams.forEach((param) => {
-      if (!req.query[param] || param === "limit") return;
-
-      filter[param] = req.query[param];
-    });
-
-    const limit = parseInt(req.query.limit) || 0;
-    const products = await ProductModel.find(filter).limit(limit);
+    const products = await ProductModel.find({});
 
     return res.json(products);
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
-
-const deleteAll = async (req, res) => {
-  try {
-    await ProductModel.deleteMany();
-
-    return res.json({ message: "Deleted all" });
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
-
-const deleteById = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) return res.status(422).json({ message: "Id is required" });
-
-  try {
-    await ProductModel.findByIdAndDelete(id);
-
-    return res.json({ message: "Deleted" });
   } catch (e) {
     return res.status(500).json({ message: "Server error" });
   }
@@ -99,10 +58,19 @@ const getById = async (req, res) => {
   }
 };
 
+const deleteAll = async (req, res) => {
+  try {
+    const products = await ProductModel.deleteMany({});
+
+    return res.json({ message: "Deleted all products" });
+  } catch (e) {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
-  add,
+  create,
   getAll,
-  deleteAll,
-  deleteById,
   getById,
+  deleteAll,
 };
