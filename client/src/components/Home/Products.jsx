@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "../auth/axios";
+import axios from "../../auth/axios";
 import { NavLink } from "react-router-dom";
 
 const Products = ({ limit }) => {

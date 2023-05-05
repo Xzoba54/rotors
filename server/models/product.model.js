@@ -22,18 +22,13 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  properties: [
-    {
-      property: {
-        type: String,
-        required: true,
-      },
-      value: {
-        type: String,
-        requried: true,
-      },
-    },
-  ],
+  brand: {
+    type: String,
+    required: true,
+  },
+  properties: {
+    type: [Object],
+  },
 });
 
 module.exports = mongoose.model("products", productSchema);

@@ -1,5 +1,5 @@
 import { Container, Section, Nav, SearchContainer, Search, SearchIcon, SearchIconContainer } from "./NavbarStyles";
-import { Span } from "./GlobalStyles";
+import { Span } from "../../styles/GlobalStyles";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
