@@ -10,6 +10,7 @@ const Container = styled.div`
   background-color: white;
   display: flex;
   justify-content: space-between;
+  z-index: 999;
   @keyframes open {
     0% {
       left: -100vw;

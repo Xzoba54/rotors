@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100%;
+  position: fixed;
+  background-color: #fff;
+  z-index: 5;
+`;
 export const Nav = styled.nav`
   box-shadow: 0px 0px 3px 1px #dee2e6;
   display: flex;

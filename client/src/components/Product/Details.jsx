@@ -24,6 +24,7 @@ const Key = styled.span`
   color: #212529;
   font-size: 17px;
   font-weight: 500;
+  text-transform: capitalize;
 `;
 const Value = styled.span`
   font-weight: 400;
@@ -38,12 +39,16 @@ const Details = ({ properties = [] }) => {
     <Container>
       <Section>
         <Ul>
-          {properties.map((property, index) => (
-            <Li key={index}>
-              <Key>{property.key}:</Key>
-              <Value>{property.value}</Value>
-            </Li>
-          ))}
+          {properties.map((property, index) => {
+            if (index >= 4) return null;
+
+            return (
+              <Li key={index}>
+                <Key>{property.key}:</Key>
+                <Value>{property.value}</Value>
+              </Li>
+            );
+          })}
         </Ul>
       </Section>
       <Section>

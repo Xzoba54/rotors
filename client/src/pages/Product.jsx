@@ -3,14 +3,13 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "../auth/axios";
 
-import Nav from "../components/Product/Nav";
 import ImageViewer from "../components/Product/Viewer";
 import UserLocation from "../components/UserLocation";
 import Display from "../components/Product/Display";
 import Header from "../components/Product/Header";
 import Details from "../components/Product/Details";
 import Summary from "../components/Product/Summary";
-import Specification from "../components/Product/Specification";
+import Sections from "../components/Product/Sections/Sections";
 
 const Container = styled.div`
   width: 100%;
@@ -77,8 +76,7 @@ const Product = () => {
                   </DetailsContainer>
                 </ProductContainer>
               </Wrapper>
-              <Nav />
-              <Specification properties={product.properties} />
+              <Sections properties={product.properties} />
             </>
           )}
         </>

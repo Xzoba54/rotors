@@ -15,10 +15,15 @@ const Slash = styled.span`
 const Name = styled.span`
   color: #495057;
   font-weight: 600;
-  cursor: default;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
+`;
+const Path = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
 `;
 
 const UserLocation = ({ location }) => {
@@ -28,15 +33,17 @@ const UserLocation = ({ location }) => {
 
   return (
     <Container>
-      <Name>{location[0]}</Name>
+      <Path>
+        <Name>{location[0]}</Name>
+      </Path>
       {location.map((element, index) => {
-        if (index === 0) return;
+        if (index === 0) return null;
 
         return (
-          <div key={index}>
+          <Path key={index}>
             <SlashComponent />
             <Name>{element}</Name>
-          </div>
+          </Path>
         );
       })}
     </Container>

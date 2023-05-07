@@ -8,7 +8,9 @@ function App() {
   return (
     <div className="container">
       <BrowserRouter>
-        <Navbar />
+        <div style={{ height: "65px" }}>
+          <Navbar />
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<Product />} />

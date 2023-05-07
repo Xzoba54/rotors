@@ -5,18 +5,22 @@ import { NavLink } from "react-router-dom";
 
 const Container = styled.div`
   min-width: 45px;
+  width: ${(props) => props.width};
   position: relative;
-  padding: 8px 10px;
+  padding: ${(props) => props.padding};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #adb5bd;
-  border-radius: ${(props) => (props.open ? "8px 8px 0px 0px" : "8px")};
+  border-top: ${(props) => (props.withoutborder ? "0px solid #fff" : "1px solid #ced4da")};
+  border-left: ${(props) => (props.withoutborder ? "0px solid #fff" : "1px solid #ced4da")};
+  border-right: ${(props) => (props.withoutborder ? "0px solid #fff" : "1px solid #ced4da")};
+  border-bottom: 1px solid #ced4da;
+  border-radius: ${(props) => (props.open ? "8px 8px 0px 0px" : props.withoutborder ? "0px" : "8px")};
   cursor: pointer;
 `;
 const Value = styled.span`
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   color: #212529;
 `;
 
@@ -28,17 +32,20 @@ const ArrowContainer = styled.div`
 `;
 
 const Menu = styled.div`
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
   width: calc(100% + 3px);
   position: absolute;
-  top: 36px;
+  top: 100%;
   left: -2px;
   background-color: #fff;
-  border: 1px solid #adb5bd;
+  border: 1px solid #ced4da;
   border-radius: 0px 0px 8px 8px;
   user-select: none;
 `;
 const Option = styled.div`
-  padding: 4px 8px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
   &:hover {
     background-color: #f5f6f7;
   }
@@ -48,10 +55,10 @@ const Option = styled.div`
 `;
 const OptionName = styled.span`
   font-weight: 400;
-  color: #212529;
+  color: #343a40;
 `;
 
-const DropdownMenu = ({ value = 1, setValue = function () {}, options = [] }) => {
+const DropdownMenu = ({ withoutborder = false, padding = "8px 10px", width = 45, value = 1, setValue = function () {}, options = [] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -70,7 +77,7 @@ const DropdownMenu = ({ value = 1, setValue = function () {}, options = [] }) =>
   }, []);
 
   return (
-    <Container open={isOpen ? true : false} ref={dropdownRef} onClick={toggle}>
+    <Container withoutborder={withoutborder} padding={padding} width={width} open={isOpen ? true : false} ref={dropdownRef} onClick={toggle}>
       <Value>{value}</Value>
       <ArrowContainer>
         <Arrow direction={isOpen ? "down" : "up"} />
